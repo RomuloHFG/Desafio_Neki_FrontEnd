@@ -15,7 +15,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
-import InfoModal from './ModalCard'; 
+import InfoModal from './ModalCard';
+import EditModal from './EditModal';
+import ConfirmDeleteDialog from './Delete';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -40,6 +42,16 @@ export default function RecipeReviewCard({
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
+  const [cardData, setCardData] = React.useState({
+    title,
+    subheader,
+    image,
+    description,
+    address,
+    phone
+  });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -61,6 +73,22 @@ export default function RecipeReviewCard({
     setModalOpen(false);
   };
 
+  const handleEditModalOpen = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
+  };
+
+  const handleConfirmDeleteOpen = () => {
+    setConfirmDeleteOpen(true);
+  };
+
+  const handleConfirmDeleteClose = () => {
+    setConfirmDeleteOpen(false);
+  };
+
   const getAvatarColor = () => {
     if (avatarColor === 'blue') {
       return blue[500];
@@ -73,12 +101,21 @@ export default function RecipeReviewCard({
 
   const handleEdit = () => {
     handleMenuClose();
-    alert(`Editar ${title}`);
+    handleEditModalOpen();
   };
 
   const handleDelete = () => {
     handleMenuClose();
-    alert(`Deletar ${title}`);
+    handleConfirmDeleteOpen();
+  };
+
+  const handleSave = (updatedData) => {
+    setCardData(updatedData);
+  };
+
+  const handleConfirmDelete = () => {
+    handleConfirmDeleteClose();
+    alert(`Card ${cardData.title} deletado`);
   };
 
   return (
@@ -87,7 +124,7 @@ export default function RecipeReviewCard({
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: getAvatarColor() }} aria-label="recipe">
-              {title ? title.charAt(0) : "R"}
+              {cardData.title ? cardData.title.charAt(0) : "R"}
             </Avatar>
           }
           action={
@@ -105,25 +142,25 @@ export default function RecipeReviewCard({
               </Menu>
             </>
           }
-          title={title}
-          subheader={subheader}
+          title={cardData.title}
+          subheader={cardData.subheader}
           style={{ background: '#319fc9' }}
         />
         <CardMedia
           component="img"
           height="150"
-          image={image}
+          image={cardData.image}
           alt="Dish"
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            <strong>Nível de Atuação:</strong> {description}
+            <strong>Nível de Atuação:</strong> {cardData.description}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Endereço:</strong> {address}
+            <strong>Endereço:</strong> {cardData.address}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Telefone:</strong> {phone}
+            <strong>Telefone:</strong> {cardData.phone}
           </Typography>
         </CardContent>
         <CardActions disableSpacing style={{ background: '#9bd8ef' }}>
@@ -147,12 +184,25 @@ export default function RecipeReviewCard({
       <InfoModal
         open={modalOpen}
         handleClose={handleModalClose}
-        title={title}
-        subheader={subheader}
-        image={image}
-        description={description}
-        address={address}
-        phone={phone}
+        title={cardData.title}
+        subheader={cardData.subheader}
+        image={cardData.image}
+        description={cardData.description}
+        address={cardData.address}
+        phone={cardData.phone}
+      />
+
+      <EditModal
+        open={editModalOpen}
+        handleClose={handleEditModalClose}
+        cardData={cardData}
+        handleSave={handleSave}
+      />
+
+      <ConfirmDeleteDialog
+        open={confirmDeleteOpen}
+        handleClose={handleConfirmDeleteClose}
+        handleConfirm={handleConfirmDelete}
       />
     </>
   );
