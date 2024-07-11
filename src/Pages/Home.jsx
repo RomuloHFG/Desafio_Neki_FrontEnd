@@ -1,14 +1,14 @@
 // Home.js
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, theme } from 'antd';
-import Footer from './Footer';
-import MenuList from './Drawer';
-import ResponsiveGrid from './Grid'; 
+import Footer from '../components/Footer';
+import ResponsiveGrid from '../components/Grid'; 
 import icon2 from '../assets/img/icons/icon2.gif'; 
 import logoff from '../assets/img/icons/logoff.png';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -16,6 +16,8 @@ const App = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const navigate = useNavigate(); // Use useNavigate hook
 
   const handleResize = () => {
     if (window.innerWidth <= 768) {
@@ -48,6 +50,7 @@ const App = () => {
   const handleLogout = () => {
     // Lógica para logout
     console.log('Usuário deslogado');
+    navigate('/login'); // Redirect to login page
   };
 
   return (

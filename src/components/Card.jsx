@@ -15,6 +15,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
+import InfoModal from './ModalCard'; 
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -38,6 +39,7 @@ export default function RecipeReviewCard({
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -51,6 +53,14 @@ export default function RecipeReviewCard({
     setAnchorEl(null);
   };
 
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
   const getAvatarColor = () => {
     if (avatarColor === 'blue') {
       return blue[500];
@@ -59,8 +69,6 @@ export default function RecipeReviewCard({
     } else {
       return red[500];
     }
-
-  
   };
 
   const handleEdit = () => {
@@ -72,68 +80,80 @@ export default function RecipeReviewCard({
     handleMenuClose();
     alert(`Deletar ${title}`);
   };
-  
 
   return (
-    <Card style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', maxWidth: '400px' }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: getAvatarColor() }} aria-label="recipe">
-          {title ? title.charAt(0) : "R"}
-        </Avatar>
-        
-        }
-        action={
-          <>
-            <IconButton aria-label="settings" onClick={handleMenuClick}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={handleEdit}>Editar</MenuItem>
-              <MenuItem onClick={handleDelete}>Deletar</MenuItem>
-            </Menu>
-          </>
-        }
+    <>
+      <Card style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', maxWidth: '400px' }}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: getAvatarColor() }} aria-label="recipe">
+              {title ? title.charAt(0) : "R"}
+            </Avatar>
+          }
+          action={
+            <>
+              <IconButton aria-label="settings" onClick={handleMenuClick}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleEdit}>Editar</MenuItem>
+                <MenuItem onClick={handleDelete}>Deletar</MenuItem>
+              </Menu>
+            </>
+          }
+          title={title}
+          subheader={subheader}
+          style={{ background: '#319fc9' }}
+        />
+        <CardMedia
+          component="img"
+          height="150"
+          image={image}
+          alt="Dish"
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            <strong>Nível de Atuação:</strong> {description}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            <strong>Endereço:</strong> {address}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            <strong>Outras Áreas:</strong> {otherAreas}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing style={{ background: '#9bd8ef' }}>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <AddCircleOutlineIcon onClick={handleModalOpen} />
+          </ExpandMore>
+        </CardActions>
+      </Card>
+
+      <InfoModal
+        open={modalOpen}
+        handleClose={handleModalClose}
         title={title}
         subheader={subheader}
-        style={{ background: '#319fc9' }} />
-      <CardMedia
-        component="img"
-        height="150"
         image={image}
-        alt="Dish"
+        description={description}
+        address={address}
+        otherAreas={otherAreas}
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Nível de Atuação:</strong> {description}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Endereço:</strong> {address}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <strong>Outras Áreas:</strong> {otherAreas}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing style={{ background: '#9bd8ef' }}>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <AddCircleOutlineIcon />
-        </ExpandMore>
-      </CardActions>
-    </Card>
+    </>
   );
 }
