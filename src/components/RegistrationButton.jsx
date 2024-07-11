@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, InputLabel } from '@mui/material';
+import { getLevelsofexpertise, getSpecialties } from '../services/authService';
 
 const CadastroButton = ({ onSave }) => {
   const [open, setOpen] = useState(false);
@@ -8,7 +9,23 @@ const CadastroButton = ({ onSave }) => {
   const [area, setArea] = useState('');
   const [level, setLevel] = useState('');
   const [address, setAddress] = useState('');
-  const [otherAreas, setOtherAreas] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const [levelsofexpertise, setLevelsofexpertise] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setSpecialties(await getSpecialties());
+        setLevelsofexpertise(await getLevelsofexpertise());
+      } catch (error) {
+        console.error('Erro ao obter dados:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,7 +42,7 @@ const CadastroButton = ({ onSave }) => {
       area,
       level,
       address,
-      otherAreas,
+      phone,
     };
     onSave(cardData);
     setOpen(false);
@@ -63,16 +80,9 @@ const CadastroButton = ({ onSave }) => {
             label="Área de Atuação"
             fullWidth
           >
-            <MenuItem value="Cardiologia">Cardiologia</MenuItem>
-            <MenuItem value="Radiologia">Radiologia</MenuItem>
-            <MenuItem value="Dentista">Dentista</MenuItem>
-            <MenuItem value="Pediatria">Pediatria</MenuItem>
-            <MenuItem value="Oftalmologia">Oftalmologia</MenuItem>
-            <MenuItem value="Psiquiatria">Psiquiatria</MenuItem>
-            <MenuItem value="Ginecologia e Obstetrícia">Ginecologia e Obstetrícia</MenuItem>
-            <MenuItem value="Ortopedia">Ortopedia</MenuItem>
-            <MenuItem value="Neurologia">Neurologia</MenuItem>
-            <MenuItem value="Urologia">Urologia</MenuItem>
+            {specialties.map((level) => (
+              <MenuItem key={level.id} value={level.id}>{level.name}</MenuItem>
+          ))}
           </Select>
           <InputLabel id="select-level-label">Nível de Atuação</InputLabel>
           <Select
@@ -83,15 +93,9 @@ const CadastroButton = ({ onSave }) => {
             label="Nível de Atuação"
             fullWidth
           >
-            <MenuItem value="Tecnólogo">Tecnólogo</MenuItem>
-            <MenuItem value="Assistente">Assistente</MenuItem>
-            <MenuItem value="Estagiário">Estagiário</MenuItem>
-            <MenuItem value="Especialista">Especialista</MenuItem>
-            <MenuItem value="Trainee">Trainee</MenuItem>
-            <MenuItem value="Consultor">Consultor</MenuItem>
-            <MenuItem value="Coordenador">Coordenador</MenuItem>
-            <MenuItem value="Pesquisador">Pesquisador</MenuItem>
-            <MenuItem value="Professor">Professor</MenuItem>
+            {levelsofexpertise.map((level) => (
+              <MenuItem key={level.id} value={level.id}>{level.name}</MenuItem>
+          ))}
           </Select>
           <TextField
             margin="dense"
@@ -102,10 +106,10 @@ const CadastroButton = ({ onSave }) => {
           />
           <TextField
             margin="dense"
-            label="Outras Áreas de Atuação"
+            label="Telefone"
             fullWidth
-            value={otherAreas}
-            onChange={(e) => setOtherAreas(e.target.value)}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </DialogContent>
         <DialogActions style={{ background: 'linear-gradient(to right, #319fc9, #9bd8ef,#319fc9)'}}>

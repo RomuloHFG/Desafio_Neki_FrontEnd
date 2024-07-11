@@ -37,20 +37,10 @@ const App = () => {
     };
   }, []);
 
-  const toggleSider = () => {
-    if (collapsed) {
-      setVisible(true);
-      setTimeout(() => setCollapsed(false), 0); 
-    } else {
-      setCollapsed(true);
-      setTimeout(() => setVisible(false), 300); 
-    }
-  };
-
   const handleLogout = () => {
-    // Lógica para logout
+    localStorage.removeItem('userToken');
     console.log('Usuário deslogado');
-    navigate('/login'); // Redirect to login page
+    navigate('/login');
   };
 
   return (

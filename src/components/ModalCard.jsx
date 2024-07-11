@@ -19,7 +19,7 @@ const style = {
  
 };
 
-const InfoModal = ({ open, handleClose, title, subheader, image, description, address, otherAreas }) => {
+const InfoModal = ({ open, handleClose, title, subheader, image, description, address, phone }) => {
   return (
     <Modal
       open={open}
@@ -49,7 +49,7 @@ const InfoModal = ({ open, handleClose, title, subheader, image, description, ad
           <strong>Endereço:</strong> {address}
         </Typography>
         <Typography sx={{ mt: 2 }}>
-          <strong>Outras Áreas:</strong> {otherAreas}
+          <strong>Telefone:</strong> {phone}
         </Typography>
       </Box>
     </Modal>

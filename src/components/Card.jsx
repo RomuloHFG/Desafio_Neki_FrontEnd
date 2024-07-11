@@ -35,7 +35,7 @@ export default function RecipeReviewCard({
   avatarColor = 'blue',
   description = "Default Description", //nivel de atuaçao
   address = "Default Address", //endereço
-  otherAreas = "Default Other Areas" // outras areas
+  phone = "Number of phone" // telefone
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -123,7 +123,7 @@ export default function RecipeReviewCard({
             <strong>Endereço:</strong> {address}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Outras Áreas:</strong> {otherAreas}
+            <strong>Telefone:</strong> {phone}
           </Typography>
         </CardContent>
         <CardActions disableSpacing style={{ background: '#9bd8ef' }}>
@@ -152,7 +152,7 @@ export default function RecipeReviewCard({
         image={image}
         description={description}
         address={address}
-        otherAreas={otherAreas}
+        phone={phone}
       />
     </>
   );

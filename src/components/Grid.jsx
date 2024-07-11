@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -8,6 +8,7 @@ import RecipeReviewCard from './Card';
 import Carousel from './Carousel';
 import CadastroButton from './RegistrationButton';
 import SearchBar from './Search'; 
+import { getProfessionals, postProfessionals } from '../services/authService';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,13 +22,48 @@ export default function ResponsiveGrid() {
   const [cards, setCards] = useState([]);
   const [searchText, setSearchText] = useState('');
 
-  const handleSaveCard = (cardData) => {
-    setCards([...cards, cardData]);
+  const handleSaveCard = async (data) => {
+    console.log(data);
+  
+    try {
+      const requestData = {
+        "name": data.name,
+        "specialty": {
+          "id": data.area,
+        },
+        "levelOfExpertise": {
+          "id": data.level,
+        },
+        "address": data.address,
+        "phone": data.phone,
+      };
+  
+      const response = await postProfessionals(requestData);
+      console.log(response);
+      window.location.reload();
+    } catch (error) {
+      console.error('Erro ao salvar profissional:', error);
+    }
   };
+  
 
-  const filteredCards = cards.filter((card) =>
+  const filteredCards = cards?.filter((card) =>
     card.name.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getProfessionals();
+        console.log(response);
+        setCards(response);
+      } catch (error) {
+        console.error('Erro ao obter dados:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <Box 
@@ -80,8 +116,8 @@ export default function ResponsiveGrid() {
         {filteredCards.map((card, index) => (
           <Grid 
             item 
-            xs={12} 
-            sm={6} 
+            xs={12}
+            sm={6}
             md={4}
             lg={3}
             key={index}
@@ -89,11 +125,11 @@ export default function ResponsiveGrid() {
           >
             <RecipeReviewCard
               title={card.name}
-              subheader={card.area}
-              image={card.image}
-              description={card.level}
+              subheader={card.specialty.name}
+              image={card.photo}
+              description={card.levelOfExpertise.name}
               address={card.address}
-              otherAreas={card.otherAreas}
+              phone={card.phone}
             />
           </Grid>
         ))}

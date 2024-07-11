@@ -1,33 +1,32 @@
-import axios from 'axios';
-
-const API_URL = '/api';
+import axiosInstance from '../axiosConfig';
 
 export const login = async (email, password) => {
-  const response = await axios.post(`${API_URL}/login`, { email, password });
+  const response = await axiosInstance.post(`/auth/login`, { email, password });
   return response.data;
 };
 
-export const signup = async (email, password) => {
-  const response = await axios.post(`${API_URL}/signup`, { email, password });
+export const postUser = async (data) => {
+  const response = await axiosInstance.post(`/auth/register`, data);
   return response.data;
 };
 
-export const fetchSkills = async () => {
-  const response = await axios.get(`${API_URL}/skills`);
+export const postProfessionals = async (data) => {
+  const response = await axiosInstance.post(`/Professionals`, data);
   return response.data;
 };
 
-export const fetchAvailableSkills = async () => {
-  const response = await axios.get(`${API_URL}/available-skills`);
+
+export const getProfessionals = async () => {
+  const response = await axiosInstance.get(`/Professionals`);
   return response.data;
 };
 
-export const addSkill = async (skill) => {
-  const response = await axios.post(`${API_URL}/skills`, skill);
+export const getSpecialties = async () => {
+  const response = await axiosInstance.get(`/specialties`);
   return response.data;
 };
 
-export const deleteSkill = async (id) => {
-  const response = await axios.delete(`${API_URL}/skills/${id}`);
+export const getLevelsofexpertise = async () => {
+  const response = await axiosInstance.get(`/levelsofexpertise`);
   return response.data;
 };

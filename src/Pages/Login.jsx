@@ -20,6 +20,7 @@ import saudeImage from '../assets/img/saude.jpg';
 import doctorImage from '../assets/img/doctor.png';
 
 import axios from 'axios';
+import { login } from '../services/authService';
 
 function Copyright(props) {
   return (
@@ -51,6 +52,16 @@ export default function SignInSide() {
     event.preventDefault();
   };
 
+  React.useEffect(() => {
+    rememberData();
+  }, []);
+
+  const rememberData = () => {
+    if(localStorage.getItem('email') != null) {
+      setRememberMe(true);
+    }
+  };
+
   const handleRememberMeChange = (event) => {
     setRememberMe(event.target.checked);
     if (event.target.checked) {
@@ -65,15 +76,15 @@ export default function SignInSide() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/login', { email, password });
-      if (response.data.success) {
+      const userData = await login(email, password);
+      if(userData) {
+        localStorage.setItem('userToken', JSON.stringify(userData));
         navigate('/home');
-      } else {
-        alert('Login failed');
       }
+
     } catch (error) {
-      console.error('Login error:', error);
-      alert('Login failed');
+      alert('Erro ao fazer login. Verifique suas credenciais.');
+      console.error('Erro de login:', error);
     }
   };
 

@@ -1,36 +1,41 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import saudeImage from '../assets/img/saude.jpg';
-import doctorImage from '../assets/img/doctor.png';
-import axios from 'axios';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import saudeImage from "../assets/img/saude.jpg";
+import doctorImage from "../assets/img/doctor.png";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { postUser } from "../services/authService";
+
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center"  {...props}>
-    {'Copyright © '}
-    <Link color="inherit" href="https://github.com/Romulo-HFG">
-      Github
-    </Link>{' '}
-    {new Date().getFullYear()}
-    {'.'}
-  </Typography>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://github.com/Romulo-HFG">
+        Github
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
   );
 }
 
@@ -44,33 +49,31 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const fullName = data.get('fullName');
-    const email = data.get('email');
-    const password = data.get('password');
-    const confirmPassword = data.get('confirmPassword');
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
+    if (data.get("password") !== data.get("confirmPassword")) {
+      alert('Senhas não coincidem');
       return;
     }
 
     try {
-      const response = await axios.post('/api/signup', { fullName, email, password });
-      if (response.data.success) {
-        alert('Registration successful');
-        navigate('/login');
-      } else {
-        alert('Registration failed');
+      const userData = {
+        name: data.get("fullName"),
+        password: data.get("password"),
+        email: data.get("email"),
+      };
+      console.log(userData);
+      const result = await postUser(userData);
+      if (result) {
+        console.log(result);
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('Registration failed');
+      console.error("Erro:", error);
     }
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
           item
@@ -80,9 +83,11 @@ export default function SignUp() {
           sx={{
             backgroundImage: `url(${saudeImage})`,
             backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -90,18 +95,34 @@ export default function SignUp() {
             sx={{
               my: 8,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'transparent', width: '70px', height: '70px'}}>
-            <img src={doctorImage} alt="Doctor" style={{ width: '100%', height: '100%' }} />
+            <Avatar
+              sx={{
+                m: 1,
+                bgcolor: "transparent",
+                width: "70px",
+                height: "70px",
+              }}
+            >
+              <img
+                src={doctorImage}
+                alt="Doctor"
+                style={{ width: "100%", height: "100%" }}
+              />
             </Avatar>
             <Typography component="h1" variant="h5">
               Cadastrar
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -130,7 +151,7 @@ export default function SignUp() {
                     fullWidth
                     name="password"
                     label="Insira sua senha"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     autoComplete="new-password"
                     InputProps={{
@@ -154,7 +175,7 @@ export default function SignUp() {
                     fullWidth
                     name="confirmPassword"
                     label="Confirme sua senha"
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? "text" : "password"}
                     id="confirmPassword"
                     autoComplete="new-password"
                     InputProps={{
@@ -162,10 +183,16 @@ export default function SignUp() {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle confirm password visibility"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
                             edge="end"
                           >
-                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -174,7 +201,9 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    control={
+                      <Checkbox value="allowExtraEmails" color="primary" />
+                    }
                     label="Não quero receber promoções de marketing e atualizações por e-mail?"
                   />
                 </Grid>
@@ -185,12 +214,12 @@ export default function SignUp() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-               Cadastrar
+                Cadastrar
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="/login" variant="body2">
-                  já tem uma conta? Entrar
+                    já tem uma conta? Entrar
                   </Link>
                 </Grid>
               </Grid>
