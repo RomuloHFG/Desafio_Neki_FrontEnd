@@ -18,6 +18,8 @@ import Avatar from '@mui/material/Avatar';
 import InfoModal from './ModalCard';
 import EditModal from './EditModal';
 import ConfirmDeleteDialog from './Delete';
+import { getPhoto } from '../services/authService';
+import { toast } from 'react-toastify';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,13 +33,14 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RecipeReviewCard({
-  title = "Default Title", //nome
-  subheader = "Default Subheader", // area de atuaçao
-  image = "/static/images/cards/paella.jpg", //imagem
+  title = 'Default Title', //nome
+  subheader = 'Default Subheader', // area de atuaçao
+  image = '/static/images/cards/paella.jpg', //imagem
   avatarColor = 'blue',
-  description = "Default Description", //nivel de atuaçao
-  address = "Default Address", //endereço
-  phone = "Number of phone" // telefone
+  description = 'Default Description', //nivel de atuaçao
+  address = 'Default Address', //endereço
+  phone = 'Number of phone', // telefone
+  id = 0, // id
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,8 +53,10 @@ export default function RecipeReviewCard({
     image,
     description,
     address,
-    phone
+    phone,
   });
+
+  const [photoUrl, setPhotoUrl] = React.useState(null);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -118,18 +123,39 @@ export default function RecipeReviewCard({
     alert(`Card ${cardData.title} deletado`);
   };
 
+  React.useEffect(() => {
+    const fetchPhoto = async () => {
+      try {
+        const photoData = await getPhoto(id);
+        if (photoData) {
+          setPhotoUrl(`data:image/jpeg;base64,${photoData}`);
+        }
+      } catch (error) {
+        console.error('Failed to load photo:', error);
+        toast.error(`Falha ao carregar a Imagem de ${cardData.title}`);
+      }
+    };
+
+    fetchPhoto();
+  }, [id]);
+
   return (
     <>
-      <Card style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', maxWidth: '400px' }}>
+      <Card
+        style={{
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)',
+          maxWidth: '400px',
+        }}
+      >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: getAvatarColor() }} aria-label="recipe">
-              {cardData.title ? cardData.title.charAt(0) : "R"}
+            <Avatar sx={{ bgcolor: getAvatarColor() }} aria-label='recipe'>
+              {cardData.title ? cardData.title.charAt(0) : 'R'}
             </Avatar>
           }
           action={
             <>
-              <IconButton aria-label="settings" onClick={handleMenuClick}>
+              <IconButton aria-label='settings' onClick={handleMenuClick}>
                 <MoreVertIcon />
               </IconButton>
               <Menu
@@ -146,35 +172,38 @@ export default function RecipeReviewCard({
           subheader={cardData.subheader}
           style={{ background: '#319fc9' }}
         />
+
         <CardMedia
-          component="img"
-          height="150"
-          image={cardData.image}
-          alt="Dish"
+          component='img'
+          height='200'
+          image={photoUrl}
+          alt='Professional Photo'
+          style={{ objectFit: "contain" }}
+
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             <strong>Nível de Atuação:</strong> {cardData.description}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             <strong>Endereço:</strong> {cardData.address}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             <strong>Telefone:</strong> {cardData.phone}
           </Typography>
         </CardContent>
         <CardActions disableSpacing style={{ background: '#9bd8ef' }}>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label='add to favorites'>
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="share">
+          <IconButton aria-label='share'>
             <ShareIcon />
           </IconButton>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
             aria-expanded={expanded}
-            aria-label="show more"
+            aria-label='show more'
           >
             <AddCircleOutlineIcon onClick={handleModalOpen} />
           </ExpandMore>
@@ -186,19 +215,17 @@ export default function RecipeReviewCard({
         handleClose={handleModalClose}
         title={cardData.title}
         subheader={cardData.subheader}
-        image={cardData.image}
+        image={photoUrl}
         description={cardData.description}
         address={cardData.address}
         phone={cardData.phone}
       />
-
       <EditModal
         open={editModalOpen}
         handleClose={handleEditModalClose}
         cardData={cardData}
         handleSave={handleSave}
       />
-
       <ConfirmDeleteDialog
         open={confirmDeleteOpen}
         handleClose={handleConfirmDeleteClose}

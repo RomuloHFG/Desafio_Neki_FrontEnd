@@ -19,7 +19,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { postUser } from "../services/authService";
-
+import { toast } from "react-toastify";
 
 function Copyright(props) {
   return (
@@ -45,13 +45,14 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [passwordError, setPasswordError] = React.useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     if (data.get("password") !== data.get("confirmPassword")) {
-      alert('Senhas não coincidem');
+      toast.error("Senhas não coincidem");
       return;
     }
 
@@ -65,6 +66,8 @@ export default function SignUp() {
       const result = await postUser(userData);
       if (result) {
         console.log(result);
+        navigate('/some-path');
+        toast.success("Usuario cadastrado com sucesso")
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -178,6 +181,8 @@ export default function SignUp() {
                     type={showConfirmPassword ? "text" : "password"}
                     id="confirmPassword"
                     autoComplete="new-password"
+                    error={!!passwordError}
+                    helperText={passwordError}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">

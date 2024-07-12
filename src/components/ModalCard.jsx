@@ -16,7 +16,7 @@ const style = {
   boxShadow: '0px 10px 18px rgba(0, 0, 0, 0.9)',
   p: 4
 
- 
+
 };
 
 const InfoModal = ({ open, handleClose, title, subheader, image, description, address, phone }) => {
@@ -29,12 +29,12 @@ const InfoModal = ({ open, handleClose, title, subheader, image, description, ad
     >
       <Box sx={style}>
         <Box >
-        <Typography id="modal-modal-title" variant="h6" component="h2" style={{fontWeight: 'bold'}}>
-          {title}
-        </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          {subheader}
-        </Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={{ fontWeight: 'bold' }}>
+            {title}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            {subheader}
+          </Typography>
         </Box>
         <CardMedia
           component="img"

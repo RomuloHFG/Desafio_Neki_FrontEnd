@@ -5,7 +5,7 @@ import { getLevelsofexpertise, getSpecialties } from '../services/authService';
 const CadastroButton = ({ onSave }) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
   const [area, setArea] = useState('');
   const [level, setLevel] = useState('');
   const [address, setAddress] = useState('');
@@ -50,11 +50,11 @@ const CadastroButton = ({ onSave }) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen} style={{ background: "#9bd8ef", borderWidth: "1px", borderColor: "white", borderRadius: "5px", margin: '5px', color: "#009", boxShadow: '0px 4px 8px rgba(9, 9, 9, 0.4)', height:"100%",fontWeight:"bold"}}>
+      <Button variant="outlined" onClick={handleClickOpen} style={{ background: "#9bd8ef", borderWidth: "1px", borderColor: "white", borderRadius: "5px", margin: '5px', color: "#009", boxShadow: '0px 4px 8px rgba(9, 9, 9, 0.4)', height: "100%", fontWeight: "bold" }}>
         Cadastrar
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{ background: 'linear-gradient(to right, #319fc9, #9bd8ef,#319fc9)', fontWeight:"bold"}}>Cadastrar</DialogTitle>
+        <DialogTitle style={{ background: 'linear-gradient(to right, #319fc9, #9bd8ef,#319fc9)', fontWeight: "bold" }}>Cadastrar</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -64,12 +64,12 @@ const CadastroButton = ({ onSave }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <TextField
+          <input
+            type="file"
             margin="dense"
-            label="Imagem URL"
+            accept="image/*"
             fullWidth
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(e) => setImage(e.target.files[0])}
           />
           <InputLabel id="select-area-label">Área de Atuação</InputLabel>
           <Select
@@ -82,7 +82,7 @@ const CadastroButton = ({ onSave }) => {
           >
             {specialties.map((level) => (
               <MenuItem key={level.id} value={level.id}>{level.name}</MenuItem>
-          ))}
+            ))}
           </Select>
           <InputLabel id="select-level-label">Nível de Atuação</InputLabel>
           <Select
@@ -95,7 +95,7 @@ const CadastroButton = ({ onSave }) => {
           >
             {levelsofexpertise.map((level) => (
               <MenuItem key={level.id} value={level.id}>{level.name}</MenuItem>
-          ))}
+            ))}
           </Select>
           <TextField
             margin="dense"
@@ -112,9 +112,9 @@ const CadastroButton = ({ onSave }) => {
             onChange={(e) => setPhone(e.target.value)}
           />
         </DialogContent>
-        <DialogActions style={{ background: 'linear-gradient(to right, #319fc9, #9bd8ef,#319fc9)'}}>
-          <Button onClick={handleClose} style={{ color:"black", fontWeight:"bold"}}>Cancelar</Button>
-          <Button onClick={handleSave} style={{ color:"black", fontWeight:"bold"}}>Salvar</Button>
+        <DialogActions style={{ background: 'linear-gradient(to right, #319fc9, #9bd8ef,#319fc9)' }}>
+          <Button onClick={handleClose} style={{ color: "black", fontWeight: "bold" }}>Cancelar</Button>
+          <Button onClick={handleSave} style={{ color: "black", fontWeight: "bold" }}>Salvar</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -9,7 +9,6 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
@@ -18,8 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import saudeImage from '../assets/img/saude.jpg';
 import doctorImage from '../assets/img/doctor.png';
-
-import axios from 'axios';
 import { login } from '../services/authService';
 
 function Copyright(props) {
@@ -57,7 +54,7 @@ export default function SignInSide() {
   }, []);
 
   const rememberData = () => {
-    if(localStorage.getItem('email') != null) {
+    if (localStorage.getItem('email') != null) {
       setRememberMe(true);
     }
   };
@@ -77,7 +74,7 @@ export default function SignInSide() {
     event.preventDefault();
     try {
       const userData = await login(email, password);
-      if(userData) {
+      if (userData) {
         localStorage.setItem('userToken', JSON.stringify(userData));
         navigate('/home');
       }
@@ -103,10 +100,10 @@ export default function SignInSide() {
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            
+
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{background: '#F7FAFF'}}>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{ background: '#F7FAFF' }}>
           <Box
             sx={{
               my: 8,
@@ -116,11 +113,11 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'transparent', width: '70px', height: '70px'}}>
-            <img src={doctorImage} alt="Doctor" style={{ width: '100%', height: '100%' }} />
+            <Avatar sx={{ m: 1, bgcolor: 'transparent', width: '70px', height: '70px' }}>
+              <img src={doctorImage} alt="Doctor" style={{ width: '100%', height: '100%' }} />
             </Avatar>
             <Typography component="h1" variant="h5">
-            Logar
+              Logar
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField

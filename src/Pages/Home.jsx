@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, theme } from 'antd';
 import Footer from '../components/Footer';
-import ResponsiveGrid from '../components/Grid'; 
-import icon2 from '../assets/img/icons/icon2.gif'; 
+import ResponsiveGrid from '../components/Grid';
+import icon2 from '../assets/img/icons/icon2.gif';
 import logoff from '../assets/img/icons/logoff.png';
+import { toast } from 'react-toastify';
 
 const { Header, Content } = Layout;
 
@@ -30,7 +31,7 @@ const App = () => {
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    handleResize(); 
+    handleResize();
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -39,7 +40,7 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');
-    console.log('Usuário deslogado');
+    toast.info('Usuario Deslogado');
     navigate('/login');
   };
 
@@ -59,13 +60,13 @@ const App = () => {
             <img src={icon2} alt="Icon" style={{ height: '45px' }} />
             <h2 style={{ color: "white" }}>SaúdeDigital</h2>
           </div>
-            <Button
-              type="text"
-              onClick={handleLogout}
-              style={{ marginRight: '25px' }}
-            >
-              <img src={logoff} alt="Logout" style={{ height: '30px'}} />
-            </Button>
+          <Button
+            type="text"
+            onClick={handleLogout}
+            style={{ marginRight: '25px' }}
+          >
+            <img src={logoff} alt="Logout" style={{ height: '30px' }} />
+          </Button>
         </Header>
         <Content
           style={{
@@ -78,9 +79,9 @@ const App = () => {
         >
           <div style={{ textAlign: "center", fontFamily: "-moz-initial", fontSize: "30px", padding: 10 }}>
             <p>Bem-vindo ao <strong style={{ color: "#319fc9" }}>SaúdeDigital</strong>,
-               onde <strong style={{ color: "#319fc9" }}>tecnologia</strong> e <strong style={{ color: "#319fc9" }}>saúde</strong>
-               se unem para cuidar do seu <strong style={{ color: "#319fc9" }}>bem-estar</strong> com <strong style={{ color: "#319fc9" }}>
-               inovação</strong> e <strong style={{ color: "#319fc9" }}>praticidade</strong>.</p>
+              onde <strong style={{ color: "#319fc9" }}>tecnologia</strong> e <strong style={{ color: "#319fc9" }}>saúde</strong>
+              se unem para cuidar do seu <strong style={{ color: "#319fc9" }}>bem-estar</strong> com <strong style={{ color: "#319fc9" }}>
+                inovação</strong> e <strong style={{ color: "#319fc9" }}>praticidade</strong>.</p>
             <p>Explore nossa rede de <strong style={{ color: "#319fc9" }}>especialistas</strong>!</p>
           </div>
 

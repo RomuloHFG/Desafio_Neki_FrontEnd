@@ -15,7 +15,6 @@ export const postProfessionals = async (data) => {
   return response.data;
 };
 
-
 export const getProfessionals = async () => {
   const response = await axiosInstance.get(`/Professionals`);
   return response.data;
@@ -28,5 +27,24 @@ export const getSpecialties = async () => {
 
 export const getLevelsofexpertise = async () => {
   const response = await axiosInstance.get(`/levelsofexpertise`);
+  return response.data;
+};
+
+export const postPhoto = async (formData, professionalId) => {
+  const response = await axiosInstance.post(
+    `/Professionals/${professionalId}/photo`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const getPhoto = async (professionalId) => {
+  const response = await axiosInstance.get(`/Professionals/${professionalId}/photo`);
   return response.data;
 };

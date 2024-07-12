@@ -22,18 +22,18 @@ const Footer = () => {
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box
           component="img"
-          src={icon2} 
+          src={icon2}
           alt="Logo"
           sx={{ width: 40, height: 40, marginRight: '10px' }}
         />
         <Typography variant="h6" color="white" fontFamily="-moz-initial">
-        SaúdeDigital
+          SaúdeDigital
         </Typography>
       </Box>
-      
+
       <Box sx={{ display: 'flex', gap: '15px', }}>
-        <Link href="#" color="textSecondary"  variant="body2" style={{textDecoration:"none", fontSize:"15px"}}>
-         política de privacidade
+        <Link href="#" color="textSecondary" variant="body2" style={{ textDecoration: "none", fontSize: "15px" }}>
+          política de privacidade
         </Link>
       </Box>
 
@@ -45,7 +45,7 @@ const Footer = () => {
           <LinkedIn />
         </Link>
       </Box>
-      
+
       <Typography variant="body2" color="textSecondary" sx={{ marginLeft: '20px' }}>
         © 2024 SaúdeDigital. Todos os direitos reservados.
       </Typography>

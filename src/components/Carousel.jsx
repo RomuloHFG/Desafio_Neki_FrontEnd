@@ -18,10 +18,10 @@ import radiologistaImg from '../assets/img/radiologista.png';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
-  {imgPath: cardiologistaImg},
-  {imgPath: dentistaImg},
-  {imgPath: plasticaImg},
-  {imgPath: radiologistaImg},
+  { imgPath: cardiologistaImg },
+  { imgPath: dentistaImg },
+  { imgPath: plasticaImg },
+  { imgPath: radiologistaImg },
 ];
 
 function SwipeableTextMobileStepper() {
@@ -42,18 +42,18 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box sx={{ 
+    <Box sx={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       width: '98%',
-      margin: '0 auto', 
+      margin: '0 auto',
       border: '1px solid grey',
       borderRadius: '5px',
       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)',
     }}>
-    
+
       <Paper
         square
         elevation={0}
@@ -72,7 +72,7 @@ function SwipeableTextMobileStepper() {
         onChangeIndex={handleStepChange}
         enableMouseEvents
         sx={{
-          width: '100%', 
+          width: '100%',
         }}
       >
         {images.map((step, index) => (
@@ -84,7 +84,7 @@ function SwipeableTextMobileStepper() {
                 display: 'block',
                 maxWidth: '100%',
                 width: '100%',
-                objectFit: 'cover', 
+                objectFit: 'cover',
                 visibility: Math.abs(activeStep - index) <= 2 ? 'visible' : 'hidden',
               }}
               src={step.imgPath}
@@ -92,7 +92,7 @@ function SwipeableTextMobileStepper() {
             />
           </div>
         ))}
-      </AutoPlaySwipeableViews> 
+      </AutoPlaySwipeableViews>
     </Box>
   );
 }
