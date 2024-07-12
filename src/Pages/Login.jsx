@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import saudeImage from '../assets/img/saude.jpg';
 import doctorImage from '../assets/img/doctor.png';
 import { login } from '../services/authService';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -80,8 +81,8 @@ export default function SignInSide() {
       }
 
     } catch (error) {
-      alert('Erro ao fazer login. Verifique suas credenciais.');
       console.error('Erro de login:', error);
+      toast.error("Erro ao fazer login. Verifique suas credenciais.");
     }
   };
 

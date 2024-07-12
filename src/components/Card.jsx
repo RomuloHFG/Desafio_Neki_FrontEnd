@@ -33,14 +33,14 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RecipeReviewCard({
-  title = 'Default Title', //nome
-  subheader = 'Default Subheader', // area de atuaçao
-  image = '/static/images/cards/paella.jpg', //imagem
+  title = 'Default Title', 
+  subheader = 'Default Subheader', 
+  image = '/static/images/cards/paella.jpg', 
   avatarColor = 'blue',
-  description = 'Default Description', //nivel de atuaçao
-  address = 'Default Address', //endereço
-  phone = 'Number of phone', // telefone
-  id = 0, // id
+  description = 'Default Description', 
+  address = 'Default Address', 
+  phone = 'Number of phone', 
+  id = 0, 
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);

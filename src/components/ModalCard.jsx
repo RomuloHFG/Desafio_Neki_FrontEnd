@@ -4,7 +4,6 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
-import { Margin, Padding } from '@mui/icons-material';
 
 const style = {
   position: 'absolute',
@@ -41,6 +40,7 @@ const InfoModal = ({ open, handleClose, title, subheader, image, description, ad
           height="150"
           image={image}
           alt={title}
+          style={{ objectFit: "contain" }}
         />
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           <strong>Nível de Atuação:</strong> {description}

@@ -64,7 +64,7 @@ const CadastroButton = ({ onSave }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <input
+          <input style={{borderRadius: '5px'}}
             type="file"
             margin="dense"
             accept="image/*"

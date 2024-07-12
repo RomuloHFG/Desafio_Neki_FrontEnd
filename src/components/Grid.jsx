@@ -10,13 +10,6 @@ import CadastroButton from './RegistrationButton';
 import SearchBar from './Search';
 import { getProfessionals, postPhoto, postProfessionals } from '../services/authService';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 export default function ResponsiveGrid() {
   const [cards, setCards] = useState([]);
