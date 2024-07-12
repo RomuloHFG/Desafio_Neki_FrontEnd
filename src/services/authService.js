@@ -74,6 +74,5 @@ export const updateProfessional = async (id, updatedData) => {
 
 export const deleteProfessional = async (id) => {
   const response = await axiosInstance.delete(`/Professionals/${id}`);
-  toast
   return response;
 };

@@ -33,7 +33,7 @@ const Footer = () => {
 
       <Box sx={{ display: 'flex', gap: '15px', }}>
         <Link href="#" color="textSecondary" variant="body2" style={{ textDecoration: "none", fontSize: "15px" }}>
-          política de privacidade
+          Política de privacidade
         </Link>
       </Box>
 
