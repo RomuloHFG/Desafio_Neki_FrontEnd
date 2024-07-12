@@ -4,7 +4,7 @@
 
  2 <----> cd Projeto  <---->
 
- 3 <----> npm install --Force <----> Importante dar o --Force  
+ 3 <----> npm install --force <----> Importante dar o --Force  
 
  4 <----> npm run dev <----> 
 
