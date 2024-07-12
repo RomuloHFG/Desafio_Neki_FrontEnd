@@ -1,4 +1,4 @@
-import axiosInstance from '../axiosConfig';
+import axiosInstance from "../axiosConfig";
 
 export const login = async (email, password) => {
   const response = await axiosInstance.post(`/auth/login`, { email, password });
@@ -45,6 +45,35 @@ export const postPhoto = async (formData, professionalId) => {
 };
 
 export const getPhoto = async (professionalId) => {
-  const response = await axiosInstance.get(`/Professionals/${professionalId}/photo`);
+  const response = await axiosInstance.get(
+    `/Professionals/${professionalId}/photo`
+  );
   return response.data;
+};
+
+export const updateProfessional = async (id, updatedData) => {
+
+  updatedData = {
+    "name": updatedData.title,
+    "specialty": {
+      "id": updatedData.subheader,
+    },
+    "levelOfExpertise": {
+      "id": updatedData.description,
+    },
+    "address": updatedData.address,
+    "phone": updatedData.phone,
+  }
+
+  const response = await axiosInstance.put(
+    `/Professionals/${id}`,
+    updatedData
+  );
+  return response;
+};
+
+export const deleteProfessional = async (id) => {
+  const response = await axiosInstance.delete(`/Professionals/${id}`);
+  toast
+  return response;
 };

@@ -18,7 +18,7 @@ import Avatar from '@mui/material/Avatar';
 import InfoModal from './ModalCard';
 import EditModal from './EditModal';
 import ConfirmDeleteDialog from './Delete';
-import { getPhoto } from '../services/authService';
+import { getPhoto, deleteProfessional, updateProfessional } from '../services/authService';
 import { toast } from 'react-toastify';
 
 const ExpandMore = styled((props) => {
@@ -114,13 +114,35 @@ export default function RecipeReviewCard({
     handleConfirmDeleteOpen();
   };
 
-  const handleSave = (updatedData) => {
-    setCardData(updatedData);
+  const handleSave = async (updatedData) => {
+    try {
+      const response = await updateProfessional(id, updatedData);
+      if (response.status === 200) {
+        window.location.reload();
+        toast.success("Informações atualizadas com sucesso!");
+      } else {
+        toast.error("Falha ao atualizar as informações");
+      }
+    } catch (error) {
+      console.error('Failed to update professional:', error);
+      toast.error("Falha ao atualizar as informações");
+    }
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await deleteProfessional(id);
+      if (response.status === 204) {
+        toast.success("Profissional deletado com sucesso!");
+        window.location.reload();
+      } else {
+        toast.error("Falha ao deletar o profissional");
+      }
+    } catch (error) {
+      console.error('Failed to delete professional:', error);
+      toast.error("Falha ao deletar o profissional");
+    }
     handleConfirmDeleteClose();
-    alert(`Card ${cardData.title} deletado`);
   };
 
   React.useEffect(() => {

@@ -1,7 +1,6 @@
 // Home.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { Button, Layout, theme } from 'antd';
 import Footer from '../components/Footer';
 import ResponsiveGrid from '../components/Grid';
@@ -18,7 +17,7 @@ const App = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const navigate = useNavigate(); // Use useNavigate hook
+  const navigate = useNavigate();
 
   const handleResize = () => {
     if (window.innerWidth <= 768) {
@@ -79,7 +78,7 @@ const App = () => {
         >
           <div style={{ textAlign: "center", fontFamily: "-moz-initial", fontSize: "30px", padding: 10 }}>
             <p>Bem-vindo ao <strong style={{ color: "#319fc9" }}>SaúdeDigital</strong>,
-              onde <strong style={{ color: "#319fc9" }}>tecnologia</strong> e <strong style={{ color: "#319fc9" }}>saúde</strong>
+              onde <strong style={{ color: "#319fc9" }}>tecnologia</strong> e <strong style={{ color: "#319fc9" }}>saúde </strong>
               se unem para cuidar do seu <strong style={{ color: "#319fc9" }}>bem-estar</strong> com <strong style={{ color: "#319fc9" }}>
                 inovação</strong> e <strong style={{ color: "#319fc9" }}>praticidade</strong>.</p>
             <p>Explore nossa rede de <strong style={{ color: "#319fc9" }}>especialistas</strong>!</p>

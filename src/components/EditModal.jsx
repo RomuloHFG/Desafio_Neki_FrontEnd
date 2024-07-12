@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, TextField, Button } from '@mui/material';
+import { Modal, Box, TextField, Button, Select, MenuItem } from '@mui/material';
+import { getLevelsofexpertise, getSpecialties } from '../services/authService';
 
 const style = {
   position: 'absolute',
@@ -15,8 +16,25 @@ const style = {
 const EditModal = ({ open, handleClose, cardData, handleSave }) => {
   const [data, setData] = useState(cardData);
 
+  const [levelsofexpertise, setLevelsofexpertise] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setSpecialties(await getSpecialties());
+        setLevelsofexpertise(await getLevelsofexpertise());
+      } catch (error) {
+        console.error('Erro ao obter dados:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   useEffect(() => {
     setData(cardData);
+    console.log(cardData);
   }, [cardData]);
 
   const handleChange = (e) => {
@@ -46,22 +64,32 @@ const EditModal = ({ open, handleClose, cardData, handleSave }) => {
           value={data.title}
           onChange={handleChange}
         />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Área de Atuação"
-          name="subheader"
-          value={data.subheader}
-          onChange={handleChange}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Nível de Atuação"
-          name="description"
-          value={data.description}
-          onChange={handleChange}
-        />
+        <Select
+            labelId="select-area-label"
+            id="select-area"
+            value={data.subheader}
+            name="subheader"
+            onChange={handleChange}
+            label="Área de Atuação"
+            fullWidth
+          >
+            {specialties.map((level) => (
+              <MenuItem key={level.id} value={level.id}>{level.name}</MenuItem>
+            ))}
+          </Select>
+        <Select
+            labelId="select-level-label"
+            id="select-level"
+            value={data.description}
+            name="description"
+            onChange={handleChange}
+            label="Nível de Atuação"
+            fullWidth
+          >
+            {levelsofexpertise.map((level) => (
+              <MenuItem key={level.id} value={level.id}>{level.name}</MenuItem>
+            ))}
+          </Select>
         <TextField
           fullWidth
           margin="normal"
